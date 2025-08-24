@@ -8,6 +8,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 查找Qt库
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
@@ -28,8 +29,8 @@ set(ZRUN_HEADERS
     ZRunQt.h
 )
 
-# 创建库
-add_library(Zrun SHARED ${ZRUN_SOURCES} ${ZRUN_HEADERS})
+# 创建静态库而不是共享库
+add_library(Zrun STATIC ${ZRUN_SOURCES} ${ZRUN_HEADERS})
 
 # 设置包含目录
 target_include_directories(Zrun PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -37,10 +38,10 @@ target_include_directories(Zrun PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # 链接Qt库
 target_link_libraries(Zrun PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 
-# 设置编译定义
+# 设置编译定义 - 移除DLL相关定义
 target_compile_definitions(Zrun PRIVATE ZRUN_LIBRARY)
 
-# 如果是Windows，添加DLL导出定义
+# 如果是Windows，添加静态编译定义
 if(WIN32)
-    target_compile_definitions(Zrun PRIVATE ZRUN_BUILD_DLL)
+    target_compile_definitions(Zrun PRIVATE ZRUN_STATIC)
 endif()

@@ -8,7 +8,10 @@ extern "C" {
 #include <stdint.h>
 
 // 平台特定的导出宏
-#if defined(_WIN32)
+// 修改导出宏 - 静态编译时不需要导出/导入声明
+#if defined(ZRUN_STATIC)
+#define ZRUN_API
+#elif defined(_WIN32)
 #ifdef ZRUN_BUILD_DLL
 #define ZRUN_API __declspec(dllexport)
 #else

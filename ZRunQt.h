@@ -5,6 +5,13 @@
 #include <QString>
 #include <QMap>
 
+// 静态编译定义
+#if defined(ZRUN_STATIC)
+#define ZRUNQT_API
+#else
+#define ZRUNQT_API Q_DECL_EXPORT
+#endif
+
 class ZRunQt : public QObject
 {
     Q_OBJECT

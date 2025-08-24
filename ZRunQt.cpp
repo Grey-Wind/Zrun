@@ -3,6 +3,13 @@
 #include <QThread>
 #include <QMetaType>
 
+// 静态编译定义
+#if defined(ZRUN_STATIC)
+#define ZRUNQT_API
+#else
+#define ZRUNQT_API Q_DECL_IMPORT
+#endif
+
 // 只在实现文件中注册元类型，不重复声明
 class ZRunQt::Impl {
 public:
